@@ -14,6 +14,9 @@ public:
 	void push_back(T data);
 	void pop_front();
 	void pop_back();
+	void clear();
+	void insert(T data, int index = Size);
+
 
 private:
 	class Node
@@ -40,10 +43,7 @@ NodeList<T>::NodeList()
 template<typename T>
 NodeList<T>::~NodeList()
 {
-	while (Size != 0)
-	{
-		pop_front();
-	}
+	this->clear();
 }
 
 template<typename T>
@@ -113,6 +113,29 @@ void NodeList<T>::pop_back()
 	Size--;
 }
 
+template<typename T>
+void NodeList<T>::clear()
+{
+	while (Size)
+	{
+		pop_front();
+	}
+}
+
+template<typename T>
+void NodeList<T>::insert(T data, int index)
+{
+	Node* current = head;
+	int counter=0;
+	while (index-1>counter)
+	{
+		current = current->pNext;
+		counter++;
+	}
+	current->pNext = new Node(data, current->pNext);
+	Size++;
+}
+
 
 template<typename T>
 NodeList<T>::Node::Node(T data, Node* pNext) {
@@ -130,6 +153,7 @@ int main() {
 	for (int i = 0; i < 10; i++) {
 		l.push_front(i);
 	}
+	l.insert(5, 8);
 	for (int i = 0; i < l.size(); i++)
 	{
 		cout << l[i] << '\n';
