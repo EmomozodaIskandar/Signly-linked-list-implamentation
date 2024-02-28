@@ -12,10 +12,11 @@ public:
 	T& operator[](int index);
 	void push_front(T data);
 	void push_back(T data);
+	void insert(T data, int index);
 	void pop_front();
 	void pop_back();
+	void removeAt(int index);
 	void clear();
-	void insert(T data, int index = Size);
 
 
 private:
@@ -95,22 +96,49 @@ void NodeList<T>::push_front(T data)
 template<typename T>
 void NodeList<T>::pop_front()
 {
-	Node* temp = head;
-	head = head->pNext;
-	delete temp;
-	Size--;
+	if (Size != 0)
+	{
+		Node* temp = head;
+		head = head->pNext;
+		delete temp;
+		Size--;
+	}
 }
 
 template<typename T>
 void NodeList<T>::pop_back()
 {
-	Node* current = head;
+	Node* current = this->head;
 	while (current->pNext != 0)
 	{
 		current = current->pNext;
 	}
 	delete current;
 	Size--;
+}
+
+template<typename T>
+void NodeList<T>::removeAt(int index)
+{
+	if (Size>1) 
+	{
+
+		Node* current = this->head;
+		int counter = 0;
+		while (counter < index - 1)
+		{
+			current = current->pNext;
+			counter++;
+		}
+		Node* temp = current->pNext;
+		current->pNext = (current->pNext)->pNext;
+		delete temp;
+		Size--;
+	}
+	else
+	{
+		pop_front();
+	}
 }
 
 template<typename T>
@@ -125,15 +153,22 @@ void NodeList<T>::clear()
 template<typename T>
 void NodeList<T>::insert(T data, int index)
 {
-	Node* current = head;
-	int counter=0;
-	while (index-1>counter)
+	if (index==0)
 	{
-		current = current->pNext;
-		counter++;
+		push_front(data);
 	}
-	current->pNext = new Node(data, current->pNext);
-	Size++;
+	else
+	{
+		Node* previous = this->head;
+		for (int i = 0; i < index - 1; i++)
+		{
+			previous = previous->pNext;
+		}
+		Node* newNode = new Node(data, previous->pNext);
+		previous->pNext = newNode;
+
+		Size++;
+	}
 }
 
 
@@ -149,13 +184,7 @@ NodeList<T>::Node::~Node() {
 }
 
 int main() {
-	NodeList<int> l;
-	for (int i = 0; i < 10; i++) {
-		l.push_front(i);
-	}
-	l.insert(5, 8);
-	for (int i = 0; i < l.size(); i++)
-	{
-		cout << l[i] << '\n';
-	}
+	NodeList<double> l;
+	l.~NodeList();
+	return 0;
 }
