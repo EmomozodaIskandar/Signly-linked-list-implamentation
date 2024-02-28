@@ -185,6 +185,5 @@ NodeList<T>::Node::~Node() {
 
 int main() {
 	NodeList<double> l;
-	l.~NodeList();
 	return 0;
 }
